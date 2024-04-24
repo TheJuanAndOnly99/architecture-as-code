@@ -5,11 +5,12 @@ on:
   push:
     branches:
       - main
+      - master
     paths:
       - .github/workflows/semgrep.yml
   schedule:
     # random HH:MM to avoid a load spike on GitHub Actions at 00:00
-    - cron: '09 15 * * *'
+    - cron: '26 15 * * *'
 jobs:
   semgrep:
     name: semgrep/ci
@@ -17,8 +18,8 @@ jobs:
     env:
       SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
     container:
-      image: returntocorp/semgrep
+      image: semgrep/semgrep
     if: (github.actor != 'dependabot[bot]')
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v3
       - run: semgrep ci
